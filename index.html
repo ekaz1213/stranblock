@@ -3,294 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Доступ ограничен</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <title>Сайт заблокирован</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-            color: #fff;
-            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+            margin: 0;
+            padding: 40px 20px;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
-            padding: 20px;
-            overflow-x: hidden;
-        }
-        .container {
-            max-width: 800px;
-            width: 100%;
-            text-align: center;
-            padding: 40px;
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(10px);
-            border-radius: 24px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            position: relative;
-            overflow: hidden;
-            animation: fadeIn 0.8s ease-out;
-        }
-        .container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(90deg, #ff4d4d, #ff9966, #ffcc00);
-            z-index: 1;
-        }
-        .lock-icon {
-            font-size: 80px;
-            color: #ff4d4d;
-            margin-bottom: 25px;
-            animation: pulse 2s infinite;
-            filter: drop-shadow(0 0 10px rgba(255, 77, 77, 0.5));
-        }
-        h1 {
-            font-size: 2.8rem;
-            margin-bottom: 15px;
-            font-weight: 700;
-            background: linear-gradient(90deg, #ff9966, #ffcc00);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            letter-spacing: 0.5px;
-        }
-        .subtitle {
-            font-size: 1.2rem;
-            color: #b0b0d0;
-            margin-bottom: 30px;
-            line-height: 1.6;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .reason-box {
-            background: rgba(255, 77, 77, 0.1);
-            border-left: 4px solid #ff4d4d;
-            padding: 20px;
-            margin: 30px 0;
-            text-align: left;
-            border-radius: 0 12px 12px 0;
-        }
-        .reason-box h3 {
-            display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-            color: #ff9966;
+            min-height: 100vh;
+            text-align: center;
         }
-        .reason-box p {
-            color: #d0d0e7;
+        
+        .box {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            max-width: 500px;
+        }
+        
+        h1 {
+            color: #d32f2f;
+            margin-bottom: 20px;
+        }
+        
+        p {
+            color: #555;
+            margin-bottom: 25px;
             line-height: 1.5;
         }
-        .details {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            padding: 20px;
-            margin: 30px 0;
-            text-align: left;
+        
+        .error {
+            background: #ffebee;
+            color: #c62828;
+            padding: 12px;
+            border-radius: 6px;
+            margin: 20px 0;
+            font-family: monospace;
         }
-        .details summary {
-            font-weight: 600;
+        
+        button {
+            background: #2196f3;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 6px;
             cursor: pointer;
-            color: #b0b0d0;
-            padding: 10px;
-            transition: color 0.3s;
-        }
-        .details summary:hover { color: #ff9966; }
-        .details-content {
-            padding: 15px 10px;
-            color: #a0a0c0;
-            font-family: 'Roboto Mono', monospace;
-            font-size: 0.9rem;
-            line-height: 1.5;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
             margin-top: 10px;
         }
-        .actions {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin-top: 40px;
-        }
-        .btn {
-            padding: 16px 32px;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            border: none;
-            text-decoration: none;
-            min-width: 180px;
-        }
-        .btn-primary {
-            background: linear-gradient(90deg, #ff4d4d, #ff9966);
-            color: white;
-            box-shadow: 0 5px 20px rgba(255, 77, 77, 0.3);
-        }
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(255, 77, 77, 0.4);
-        }
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.15);
-            transform: translateY(-3px);
-        }
-        .security-info {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 40px;
-            padding-top: 25px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: #a0a0c0;
-            font-size: 0.9rem;
-        }
-        .floating-elements {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-        }
-        .floating-element {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 50%;
-            animation: float 15s infinite linear;
-        }
-        .floating-element:nth-child(1) {
-            width: 80px; height: 80px;
-            top: 10%; left: 5%;
-            animation-delay: 0s;
-        }
-        .floating-element:nth-child(2) {
-            width: 120px; height: 120px;
-            top: 60%; right: 10%;
-            animation-delay: -5s;
-            animation-duration: 20s;
-        }
-        .floating-element:nth-child(3) {
-            width: 60px; height: 60px;
-            bottom: 20%; left: 15%;
-            animation-delay: -10s;
-            animation-duration: 25s;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        @keyframes float {
-            0% { transform: translateY(0) rotate(0deg); }
-            25% { transform: translateY(-20px) rotate(90deg); }
-            50% { transform: translateY(0) rotate(180deg); }
-            75% { transform: translateY(20px) rotate(270deg); }
-            100% { transform: translateY(0) rotate(360deg); }
-        }
-        @media (max-width: 768px) {
-            .container { padding: 30px 20px; }
-            h1 { font-size: 2.2rem; }
-            .subtitle { font-size: 1.1rem; }
-            .actions { flex-direction: column; align-items: center; }
-            .btn { width: 100%; max-width: 300px; }
-        }
-        @media (max-width: 480px) {
-            h1 { font-size: 1.8rem; }
-            .lock-icon { font-size: 60px; }
-            .reason-box, .details { padding: 15px; }
+        
+        button:hover {
+            background: #1976d2;
         }
     </style>
 </head>
 <body>
-    <div class="floating-elements">
-        <div class="floating-element"></div>
-        <div class="floating-element"></div>
-        <div class="floating-element"></div>
+    <div class="box">
+        <div style="font-size: 48px; margin-bottom: 20px;">🚫</div>
+        <h1>САЙТ ЗАБЛОКИРОВАН</h1>
+        <p>Доступ к этому ресурсу ограничен по соображениям безопасности.</p>
+        
+        <div class="error">
+            Ошибка 403: Доступ запрещен
+        </div>
+        
+        <p><small>Если вы считаете, что это ошибка, обратитесь к администратору.</small></p>
+        
+        <button onclick="window.history.back()">Вернуться назад</button>
     </div>
     
-    <div class="container">
-        <div class="lock-icon">
-            <i class="fas fa-ban"></i>
-        </div>
-        
-        <h1>Доступ ограничен</h1>
-        
-        <p class="subtitle">Запрашиваемый вами веб-ресурс заблокирован в соответствии с политикой безопасности или действующими ограничениями.</p>
-        
-        <div class="reason-box">
-            <h3><i class="fas fa-exclamation-triangle"></i> Причина блокировки</h3>
-            <p>Сайт был заблокирован системой безопасности из-за потенциальной угрозы конфиденциальности данных или нарушения правил использования сети. Это может быть связано с вредоносным содержимым, фишингом или нарушением корпоративной политики.</p>
-        </div>
-        
-        <details class="details">
-            <summary>Техническая информация</summary>
-            <div class="details-content">
-                <p><strong>Время блокировки:</strong> <span id="block-time"></span></p>
-                <p><strong>Код блокировки:</strong> SEC-403-FORBIDDEN</p>
-                <p><strong>Категория угрозы:</strong> Высокий риск</p>
-                <p><strong>Инициатор блокировки:</strong> Система безопасности сети</p>
-            </div>
-        </details>
-        
-        <div class="actions">
-            <button class="btn btn-primary" onclick="goBack()">
-                <i class="fas fa-arrow-left"></i> Вернуться назад
-            </button>
-            <button class="btn btn-secondary" onclick="contactSupport()">
-                <i class="fas fa-headset"></i> Связаться с поддержкой
-            </button>
-        </div>
-        
-        <div class="security-info">
-            <i class="fas fa-shield-alt"></i>
-            <span>Блокировка выполнена в целях вашей безопасности</span>
-        </div>
-    </div>
-
     <script>
-        document.getElementById('block-time').textContent = new Date().toLocaleString('ru-RU');
-        
-        function goBack() {
-            alert('Возврат на предыдущую страницу. В реальном сценарии это перенаправит пользователя назад.');
-        }
-        
-        function contactSupport() {
-            alert('Обращение в службу поддержки. В реальном сценарии это откроет форму обращения или чат.');
-        }
-        
-        document.querySelectorAll('.btn').forEach(btn => {
-            btn.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-3px)';
-            });
-            btn.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0)';
-            });
-        });
+        console.log('Страница блокировки загружена');
     </script>
 </body>
 </html>
