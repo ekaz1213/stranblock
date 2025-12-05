@@ -3,81 +3,571 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Сайт заблокирован</title>
+    <title>Доступ ограничен</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f0f0f0;
+        * {
             margin: 0;
-            padding: 40px 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            color: #fff;
             min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .neon-glow {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(120, 119, 198, 0.15) 0%, rgba(255, 119, 198, 0.05) 50%, transparent 70%);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: rgba(16, 18, 27, 0.7);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 50px;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.4),
+                0 0 100px rgba(138, 43, 226, 0.15),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            position: relative;
+            overflow: hidden;
+            animation: floatIn 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, 
+                #ff0080, 
+                #ff8c00, 
+                #40e0d0,
+                #ff0080);
+            background-size: 200% 100%;
+            animation: shimmer 3s linear infinite;
+        }
+
+        .lock-icon {
+            font-size: 90px;
+            margin-bottom: 30px;
             text-align: center;
+            animation: pulseGlow 2s ease-in-out infinite alternate;
+            filter: drop-shadow(0 0 20px rgba(255, 64, 129, 0.5));
         }
-        
-        .box {
-            background: white;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            max-width: 500px;
-        }
-        
+
         h1 {
-            color: #d32f2f;
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-align: center;
+            background: linear-gradient(90deg, #ff6b9d, #ffd166, #06d6a0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+            line-height: 1.1;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            margin-bottom: 40px;
+            line-height: 1.6;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .warning-card {
+            background: linear-gradient(145deg, rgba(255, 64, 129, 0.1), rgba(103, 58, 183, 0.1));
+            border-radius: 18px;
+            padding: 30px;
+            margin: 40px 0;
+            border: 1px solid rgba(255, 64, 129, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .warning-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.03) 50%, transparent 70%);
+            animation: shine 8s infinite linear;
+        }
+
+        .warning-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
             margin-bottom: 20px;
         }
-        
-        p {
-            color: #555;
-            margin-bottom: 25px;
-            line-height: 1.5;
+
+        .warning-icon {
+            font-size: 28px;
+            color: #ff4081;
+            filter: drop-shadow(0 0 10px rgba(255, 64, 129, 0.5));
         }
-        
-        .error {
-            background: #ffebee;
-            color: #c62828;
-            padding: 12px;
-            border-radius: 6px;
-            margin: 20px 0;
-            font-family: monospace;
+
+        .warning-header h3 {
+            font-size: 1.5rem;
+            color: #ff4081;
+            font-weight: 600;
         }
-        
-        button {
-            background: #2196f3;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            font-size: 16px;
-            border-radius: 6px;
+
+        .warning-text {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.7;
+            font-size: 1.1rem;
+        }
+
+        .details {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            margin: 30px 0;
+            overflow: hidden;
+        }
+
+        .details summary {
+            padding: 22px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
             cursor: pointer;
-            margin-top: 10px;
+            color: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s ease;
+            list-style: none;
+            position: relative;
         }
-        
-        button:hover {
-            background: #1976d2;
+
+        .details summary::after {
+            content: '▾';
+            position: absolute;
+            right: 30px;
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .details[open] summary::after {
+            transform: rotate(180deg);
+        }
+
+        .details summary:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: #40e0d0;
+        }
+
+        .details-content {
+            padding: 0 30px 25px;
+            color: rgba(255, 255, 255, 0.7);
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .actions {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 50px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 18px 36px;
+            border-radius: 14px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: none;
+            min-width: 200px;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ff4081, #ff6b9d);
+            color: white;
+            box-shadow: 0 10px 30px rgba(255, 64, 129, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 15px 40px rgba(255, 64, 129, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .security-footer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.95rem;
+        }
+
+        .security-icon {
+            color: #06d6a0;
+            font-size: 1.2rem;
+            filter: drop-shadow(0 0 10px rgba(6, 214, 160, 0.3));
+        }
+
+        @keyframes floatIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes pulseGlow {
+            0% {
+                transform: scale(1);
+                filter: drop-shadow(0 0 20px rgba(255, 64, 129, 0.5));
+            }
+            100% {
+                transform: scale(1.05);
+                filter: drop-shadow(0 0 30px rgba(255, 64, 129, 0.7));
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: 200% 0;
+            }
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        @keyframes shine {
+            0% {
+                transform: translateX(-100%) rotate(45deg);
+            }
+            100% {
+                transform: translateX(100%) rotate(45deg);
+            }
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -2;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: floatParticle linear infinite;
+        }
+
+        @keyframes floatParticle {
+            to {
+                transform: translateY(-100vh);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 35px 25px;
+                margin: 20px;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .lock-icon {
+                font-size: 70px;
+            }
+            
+            .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .lock-icon {
+                font-size: 60px;
+            }
+            
+            .warning-card {
+                padding: 20px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="box">
-        <div style="font-size: 48px; margin-bottom: 20px;">🚫</div>
-        <h1>САЙТ ЗАБЛОКИРОВАН</h1>
-        <p>Доступ к этому ресурсу ограничен по соображениям безопасности.</p>
-        
-        <div class="error">
-            Ошибка 403: Доступ запрещен
+    <div class="neon-glow"></div>
+    <div class="particles" id="particles"></div>
+    
+    <div class="container">
+        <div class="lock-icon">
+            <svg width="90" height="90" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2C9.23858 2 7 4.23858 7 7V10H6C4.89543 10 4 10.8954 4 12V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V12C20 10.8954 19.1046 10 18 10H17V7C17 4.23858 14.7614 2 12 2Z" stroke="url(#gradient)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <defs>
+                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#ff6b9d"/>
+                        <stop offset="100%" stop-color="#ffd166"/>
+                    </linearGradient>
+                </defs>
+            </svg>
         </div>
         
-        <p><small>Если вы считаете, что это ошибка, обратитесь к администратору.</small></p>
+        <h1>ДОСТУП ОГРАНИЧЕН</h1>
         
-        <button onclick="window.history.back()">Вернуться назад</button>
+        <p class="subtitle">
+            Запрашиваемый ресурс временно недоступен или заблокирован 
+            в соответствии с политикой безопасности сети
+        </p>
+        
+        <div class="warning-card">
+            <div class="warning-header">
+                <div class="warning-icon">⚠️</div>
+                <h3>ПРИЧИНА БЛОКИРОВКИ</h3>
+            </div>
+            <p class="warning-text">
+                Система безопасности обнаружила потенциальную угрозу на данном ресурсе. 
+                Доступ ограничен для защиты ваших данных и предотвращения 
+                возможных кибератак. Для разблокировки обратитесь к администратору сети.
+            </p>
+        </div>
+        
+        <details class="details">
+            <summary>Техническая информация</summary>
+            <div class="details-content">
+                <div class="detail-item">
+                    <span>Код ошибки:</span>
+                    <span style="color: #ff4081; font-weight: 600;">SEC-403-FORBIDDEN</span>
+                </div>
+                <div class="detail-item">
+                    <span>Время блокировки:</span>
+                    <span id="blockTime">--:--:--</span>
+                </div>
+                <div class="detail-item">
+                    <span>Уровень угрозы:</span>
+                    <span style="color: #ff4081;">ВЫСОКИЙ</span>
+                </div>
+                <div class="detail-item">
+                    <span>Блокирующая система:</span>
+                    <span>Network Security Shield v3.2</span>
+                </div>
+                <div class="detail-item">
+                    <span>IP адрес ресурса:</span>
+                    <span>192.168.1.100</span>
+                </div>
+            </div>
+        </details>
+        
+        <div class="actions">
+            <button class="btn btn-primary" onclick="goBack()">
+                <span style="font-size: 1.2em;">←</span>
+                Вернуться назад
+            </button>
+            <button class="btn btn-secondary" onclick="contactAdmin()">
+                <span>🛡️</span>
+                Связаться с администратором
+            </button>
+        </div>
+        
+        <div class="security-footer">
+            <span class="security-icon">🔒</span>
+            <span>Блокировка выполнена в целях вашей безопасности • Защита активна</span>
+        </div>
     </div>
-    
+
     <script>
-        console.log('Страница блокировки загружена');
+        // Частицы фона
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = `${Math.random() * 100}vw`;
+                particle.style.top = `${Math.random() * 100}vh`;
+                particle.style.animationDuration = `${15 + Math.random() * 20}s`;
+                particle.style.opacity = Math.random() * 0.5 + 0.2;
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Обновление времени
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('ru-RU', {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            const dateString = now.toLocaleDateString('ru-RU', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
+            document.getElementById('blockTime').textContent = `${dateString} ${timeString}`;
+        }
+
+        // Кнопка "Назад"
+        function goBack() {
+            const btn = event.currentTarget;
+            btn.innerHTML = '<span class="spinner"></span>Возвращение...';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                window.history.back();
+            }, 800);
+        }
+
+        // Кнопка "Администратор"
+        function contactAdmin() {
+            const btn = event.currentTarget;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<span>📧</span>Отправка запроса...';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                alert('✅ Запрос отправлен администратору сети. Ожидайте ответа.');
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }, 1500);
+        }
+
+        // Автоматическое обновление времени
+        setInterval(updateTime, 1000);
+        updateTime();
+        
+        // Создание частиц при загрузке
+        createParticles();
+        
+        // Эффект печатающего текста для подзаголовка
+        const subtitle = document.querySelector('.subtitle');
+        const originalText = subtitle.textContent;
+        subtitle.textContent = '';
+        
+        let i = 0;
+        function typeWriter() {
+            if (i < originalText.length) {
+                subtitle.textContent += originalText.charAt(i);
+                i++;
+                setTimeout(typeWriter, 20);
+            }
+        }
+        
+        // Запускаем через секунду после загрузки
+        setTimeout(typeWriter, 1000);
+        
+        // Добавляем стили для спиннера
+        const style = document.createElement('style');
+        style.textContent = `
+            .spinner {
+                display: inline-block;
+                width: 20px;
+                height: 20px;
+                border: 2px solid rgba(255,255,255,0.3);
+                border-radius: 50%;
+                border-top-color: white;
+                animation: spin 0.8s linear infinite;
+                margin-right: 10px;
+            }
+            @keyframes spin {
+                to { transform: rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>
